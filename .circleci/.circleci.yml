@@ -1,0 +1,41 @@
+ version: 2.1
+
+  jobs:
+    build:
+      docker:
+        - image: cimg/base:stable
+      steps:
+        - checkout
+        - run:
+            name: 检查项目类型
+            command: |
+              echo "检测项目类型..."
+              if [ -f "package.json" ]; then
+                echo "📦 Node.js 项目"
+                npm install
+                npm test
+              elif [ -f "requirements.txt" ]; then
+                echo "🐍 Python 项目"
+                pip install -r requirements.txt
+                pytest
+              elif [ -f "setup.py" ] || [ -f "pyproject.toml" ]; then
+                echo "🐍 Python 项目"
+                pip install -e .
+                pytest
+              elif [ -f "go.mod" ]; then
+                echo "🔵 Go 项目"
+                go build ./...
+                go test ./...
+              elif [ -f "Cargo.toml" ]; then
+                echo "🦀 Rust 项目"
+                cargo build
+                cargo test
+              else
+                echo "✅ 项目已就绪，暂无自动测试配置"
+              fi
+
+  workflows:
+    version: 2
+    build-and-test:
+      jobs:
+        - build
