@@ -1,8 +1,8 @@
-语言: zh-CN
-  评论:
-    个人资料: 自信
-    自动评论:
-      Ruff:
-        已启用: true
-  聊天:
-自动回复: 真
+language: zh-CN
+  reviews:
+    profile: assertive
+    auto_review:
+      ruff:
+        enabled: true
+  chat:
+    auto_reply: true
